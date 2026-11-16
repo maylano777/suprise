@@ -1,4 +1,4 @@
-const GATE_HASH = "GANTI_DENGAN_HASH_PASSWORD";
+const GATE_PASSWORD = "18112009";
 
 async function sha256(text) {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
@@ -17,7 +17,7 @@ async function tryOpen() {
     document.body.style.overflow = "";
     setTimeout(() => gate.remove(), 500);
   } else {
-    gateMsg.textContent = "Hmm, belum bener nih 🥺";
+    gateMsg.textContent = "Hmm, belum bener nih ";
     gate.querySelector(".gate-card").classList.remove("shake");
     void gate.offsetWidth;
     gate.querySelector(".gate-card").classList.add("shake");
