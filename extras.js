@@ -1,3 +1,31 @@
+const GATE_HASH = "GANTI_DENGAN_HASH_PASSWORD";
+
+async function sha256(text) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+const gate = document.getElementById("gate");
+const gateInput = document.getElementById("gate-input");
+const gateMsg = document.getElementById("gate-msg");
+document.body.style.overflow = "hidden";
+
+async function tryOpen() {
+  const hash = await sha256(gateInput.value.trim().toLowerCase());
+  if (hash === GATE_HASH) {
+    gate.classList.add("hide");
+    document.body.style.overflow = "";
+    setTimeout(() => gate.remove(), 500);
+  } else {
+    gateMsg.textContent = "Hmm, belum bener nih 🥺";
+    gate.querySelector(".gate-card").classList.remove("shake");
+    void gate.offsetWidth;
+    gate.querySelector(".gate-card").classList.add("shake");
+  }
+}
+document.getElementById("gate-btn").addEventListener("click", tryOpen);
+gateInput.addEventListener("keydown", e => { if (e.key === "Enter") tryOpen(); });
+
 /* extras.js — taruh SETELAH <script src="script.js"></script> */
 (function(){
   // GANTI dengan username Instagram-mu (tanpa @). Kalau kosong, tombol balas tidak muncul.
