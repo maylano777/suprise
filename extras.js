@@ -1,31 +1,26 @@
-const GATE_PASSWORD = "18112009";
+(function () {
+  var PASSWORD = "18112009";
+  var gate = document.getElementById("gate");
+  var input = document.getElementById("gate-input");
+  var msg = document.getElementById("gate-msg");
+  var card = gate.querySelector(".gate-card");
+  document.body.style.overflow = "hidden";
 
-async function sha256(text) {
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
-}
-
-const gate = document.getElementById("gate");
-const gateInput = document.getElementById("gate-input");
-const gateMsg = document.getElementById("gate-msg");
-document.body.style.overflow = "hidden";
-
-async function tryOpen() {
-  const hash = await sha256(gateInput.value.trim().toLowerCase());
-  if (hash === GATE_HASH) {
-    gate.classList.add("hide");
-    document.body.style.overflow = "";
-    setTimeout(() => gate.remove(), 500);
-  } else {
-    gateMsg.textContent = "Hmm, belum bener nih ";
-    gate.querySelector(".gate-card").classList.remove("shake");
-    void gate.offsetWidth;
-    gate.querySelector(".gate-card").classList.add("shake");
+  function tryOpen() {
+    if (input.value.trim().toLowerCase() === PASSWORD) {
+      gate.classList.add("hide");
+      document.body.style.overflow = "";
+      setTimeout(function () { gate.remove(); }, 500);
+    } else {
+      msg.textContent = "Hmm, belum bener nih 🥺";
+      card.classList.remove("shake");
+      void card.offsetWidth;
+      card.classList.add("shake");
+    }
   }
-}
-document.getElementById("gate-btn").addEventListener("click", tryOpen);
-gateInput.addEventListener("keydown", e => { if (e.key === "Enter") tryOpen(); });
-
+  document.getElementById("gate-btn").addEventListener("click", tryOpen);
+  input.addEventListener("keydown", function (e) { if (e.key === "Enter") tryOpen(); });
+})();
 /* extras.js — taruh SETELAH <script src="script.js"></script> */
 (function(){
   // GANTI dengan username Instagram-mu (tanpa @). Kalau kosong, tombol balas tidak muncul.
