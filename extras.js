@@ -51,6 +51,8 @@
     if (opened) return;
     opened = true;
     env.classList.add('is-open');
+        env.classList.add('is-open');
+    window.__musicOK = true;
 
     // Ketukan ini sekaligus jadi izin untuk memutar musik
     const audio = document.getElementById('bgm');
