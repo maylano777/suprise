@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <script>
+window.__musicOK = false;
+(function () {
+  var realPlay = HTMLMediaElement.prototype.play;
+  HTMLMediaElement.prototype.play = function () {
+    if (!window.__musicOK) {
+      var p = Promise.reject(new DOMException("blocked", "NotAllowedError"));
+      p.catch(function () {});
+      return p;
+    }
+    return realPlay.apply(this, arguments);
+  };
+})();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday, Sekar</title>
